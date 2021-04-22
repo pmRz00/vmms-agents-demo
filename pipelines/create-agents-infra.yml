@@ -6,7 +6,7 @@ pool:
 
 stages :
  
-  - stage: deploy-agent-resources
+  - stage: deploy_agent_resources
     jobs:
       - job: "BicepConfigure"
         steps:
