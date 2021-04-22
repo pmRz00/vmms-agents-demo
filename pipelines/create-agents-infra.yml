@@ -1,0 +1,35 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages :
+ 
+  - stage: deploy-agent-resources
+    jobs:
+      - job: "BicepConfigure"
+        steps:
+  
+          - task: Bash@3
+            displayName: 'Install & run Bicep'
+            inputs:
+              targetType: inline
+              script: |
+                curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+                chmod +x ./bicep
+                ./bicep build $(System.DefaultWorkingDirectory)pipelines/bicep/main..bicep
+ 
+          - task: AzureCLI@2
+            displayName: 'Deploy generated ARM'
+            inputs:
+              azureSubscription: 'Internal Consumption tostille(7d5e75b2-656e-4a96-b12f-24e2e79a8279)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                #!/bin/bash
+                az group create -l northeurope -n bicep-rg 
+                az deployment group create -f $(System.DefaultWorkingDirectory)/pipelines/bicep/main.json -g bicep-rg
+              addSpnToEnvironment: true
+
+
