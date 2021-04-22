@@ -121,7 +121,7 @@ resource vmss 'Microsoft.Compute/virtualMachineScaleSets@2020-06-01' = {
     capacity: instanceCount
   }
   properties: {
-    overprovision: true
+    overprovision: false
     upgradePolicy: {
       mode: 'Manual'
     }
