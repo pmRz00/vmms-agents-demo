@@ -18,7 +18,7 @@ stages :
               script: |
                 curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
                 chmod +x ./bicep
-                ./bicep build $(System.DefaultWorkingDirectory)pipelines/bicep/main..bicep
+                ./bicep build $(System.DefaultWorkingDirectory)/bicep/main.bicep
  
           - task: AzureCLI@2
             displayName: 'Deploy generated ARM'
@@ -29,7 +29,7 @@ stages :
               inlineScript: |
                 #!/bin/bash
                 az group create -l northeurope -n bicep-rg 
-                az deployment group create -f $(System.DefaultWorkingDirectory)/pipelines/bicep/main.json -g bicep-rg
+                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep/main.json -g bicep-rg
               addSpnToEnvironment: true
 
 
