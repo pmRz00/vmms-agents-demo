@@ -25,7 +25,7 @@ stages :
                 # Verify you can now access the 'bicep' command
                 bicep --help
                 # Done!
-                bicep build $(System.DefaultWorkingDirectory)/bicep/main.bicep
+                bicep build $(System.DefaultWorkingDirectory)/bicep/main.bicep -adminPassword $(ADMINPASSWORD) -adminUsername $(ADMINUSERNAME) -instanceCount $(INSTANCECOUNT) -vmssName $(VMSSNAME)
  
           - task: AzureCLI@2
             displayName: 'Deploy generated ARM'
