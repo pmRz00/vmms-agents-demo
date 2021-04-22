@@ -25,7 +25,7 @@ stages :
                 # Verify you can now access the 'bicep' command
                 bicep --help
                 # Done!
-                bicep build $(System.DefaultWorkingDirectory)/bicep/main.bicep -adminPassword $(ADMINPASSWORD) -adminUsername $(ADMINUSERNAME) -instanceCount $(INSTANCECOUNT) -vmssName $(VMSSNAME)
+                bicep build $(System.DefaultWorkingDirectory)/bicep/main.bicep
  
           - task: AzureCLI@2
             displayName: 'Deploy generated ARM'
@@ -36,7 +36,7 @@ stages :
               inlineScript: |
                 #!/bin/bash
                 az group create -l northeurope -n bicep-rg 
-                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep/main.json -g bicep-rg
+                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep/main.json -g bicep-rg --parameters adminPassword=$(ADMINPASSWORD) adminUsername=$(ADMINUSERNAME) instanceCount=$(INSTANCECOUNT) vmssName=$(VMSSNAME)
               addSpnToEnvironment: true
 
 
